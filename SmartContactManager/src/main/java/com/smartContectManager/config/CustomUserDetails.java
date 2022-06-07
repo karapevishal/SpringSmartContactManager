@@ -12,7 +12,7 @@ import com.smartContectManager.Entity.User;
 public class CustomUserDetails implements UserDetails {
 
 	private User user;
-	
+	// changed
 	
 	public CustomUserDetails(User user) {
 		super();
