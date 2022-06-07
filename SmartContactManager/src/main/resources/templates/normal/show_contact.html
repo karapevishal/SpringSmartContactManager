@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>Document</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+	integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+	<section>
+		<div class="container">
+			<div class="card mr-3 ml-3">
+				<div class="card-body">
+					<!-- heading -->
+					<h1 class="text-center">Your Contacts</h1>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">User_Id</th>
+								<th scope="col">Name</th>
+								<th scope="col">Email</th>
+								<th scope="col">Phone</th>
+								<th scope="col">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="c:${contacts}">
+								<th scope="row" th:text="'SCM2022-'+${c.cid}">1</th>
+								
+								<td > <img class="my_profile_picture" th:src="@{'/image/'+${c.image}}" alt="profilephoto" /> <span th:text="${c.cname}"></span></td>
+								
+								<td > <a href="" th:href="@{'/user/'+${c.cid} +'/contact'} "><span th:text="${c.email}"></span></a> </td>
+								
+								<td th:text="${c.phone}"></td>
+								
+								<td>
+									<!-- <a  th:href="@{'/user/delete/'+${c.cid}}" class="btn btn-danger btn-sm"> -->
+									<a  th:onclick="|deletecontact(${c.cid})|" class="btn btn-danger btn-sm">
+										<i class="fa fa-trash" aria-hidden="true"></i> Delete
+									</a>
+									<form th:action="@{'/user/update_contact/'+${c.cid}}" method="post" class="mt-2">
+									<button type="submit" class="btn btn-success btn-sm">
+										<i class="fa fa-pencil" aria-hidden="true"></i> Update
+									</button>
+									</form>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<!-- Creating pegination to Load Data in small Buckets -->
+					
+					<nav aria-label="Page navigation example">
+					
+						<ul class="pagination">
+						
+							<li th:if="${currentPage !=0}" class="page-item"><a class="page-link" href="#" th:href="@{'/user/show_contact/'+${currentPage-1}}">Previous</a></li>
+							
+							<li th:classappend="${currentPage==i-1? 'active':''}" th:each="i :${#numbers.sequence(1,totalpages)}" class="page-item"><a th:href="@{'/user/show_contact/'+${i-1}}" class="page-link" href="#"><span th:text="${i}"></span></a></li>
+							
+							<li th:if="${currentPage+1 !=totalpages}" class="page-item"><a class="page-link" href="#" th:href="@{'/user/show_contact/'+${currentPage+1}}" >Next</a></li>
+						
+						</ul>
+					</nav>
+					
+				</div>
+			</div>
+		</div>
+
+
+	</section>
+</body>
+
+</html>

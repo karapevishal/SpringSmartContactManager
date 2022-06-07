@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>Registration</title>
+</head>
+<body>
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 offset-md-3">
+					<div class="my-card mt-5">
+					
+					<!-- conditional redering -->
+					<div th:if="${session.message}" class="alert text-center" th:classappend="${session.message.type}" role="alert">
+  							<p th:text="${session.message.content}"></p>
+  							<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+					</div>
+					
+					<!-- Image of Signup -->
+					
+					<div class="container text-center">
+						<img alt="membership image" th:src="@{/image/membership.png}" style="width: 50px" class="">
+					</div>
+						<h1 class="text-center">SignUp Here!</h1>
+						<form novalidate="novalidate" th:action="@{/do_register}" method="post" th:object="${user}">
+							<!-- name Filed -->
+							<div class="mb-3">
+								<label for="name_filed" class="form-label">Your Name</label> 
+								<input 
+								type="text" 
+								name="name"
+								class="form-control"
+								th:classappend="${#fields.hasErrors('name') ? 'is-invalid':''}"
+								id=name_filed 
+								aria-describedby="emailHelp"
+								placeholder="Enter Here"
+								required
+								th:value="${user.name}">
+								
+								<div class="invalid-feedback" th:each="e : ${#fields.errors('name')}" th:text="${e}">
+									
+								</div>
+								
+								
+							</div>
+							<!-- Email Filed -->
+							<div class="mb-3">
+								<label for="Email_filed" class="form-label">Email</label> 
+								<input 
+								type="email"
+								name="email"
+								class="form-control"
+								th:classappend="${#fields.hasErrors('email') ? 'is-invalid':''}"
+								id=Email_filed 
+								aria-describedby="emailHelp"
+								placeholder="Enter Here"
+								th:value="${user.email}"
+								required>
+								
+								<div class="invalid-feedback" th:each="e : ${#fields.errors('email')}" th:text="${e}"></div>
+							
+								
+							</div>
+							<!-- Password Filed -->
+							<div class="mb-3">
+								<label for="password_filed" class="form-label">Password</label> 
+								<input 
+								type="password" 
+								name="password"
+								class="form-control"
+								id=password_filed 
+								aria-describedby="emailHelp"
+								placeholder="Enter Here"
+								required>
+							</div>
+							<!-- About Filed -->
+							<div class="form-group r">
+								<textarea name="about" th:text="${user.about}" rows="10" class="form-control" placeholder="Enter Somthing Yourself" required="required"></textarea>
+							</div>
+							<!-- terms and condoition aggreement -->
+							<div class="form-group form-check text-cente">
+								<input type="checkbox" 
+									   name="aggrement" 
+									   class="form-check-input" 
+									   id="aggrement">
+								<label for=aggrement>Accept terms and condition</label>
+							
+							</div>
+							<!-- Buttons Filed -->
+							<div class="container text-center pt-2">							
+								<button class="btn btn-primary text-white" type="submit">
+									Submit
+								</button>
+								<button class="btn btn-warning" type="reset">
+									Reset
+								</button>
+							</div>
+							<div class="container text-center m-2">
+									<p class="mb-0">
+										 have an account? <a href="/signin"
+											class="text-dark-50 fw-bold">LogIn</a>
+									</p>
+								</div>
+							<!-- Buttons end -->
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
